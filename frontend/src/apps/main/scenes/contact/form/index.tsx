@@ -1,64 +1,30 @@
 import "./style.scss";
 import React, { useState } from "react";
-import axios from "axios";
+import { sendMessage } from "./send-message";
 import { toast } from "react-toastify";
-
 import { validateField } from "./validation/validate-form";
-interface SendMessageParams {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
 
-const sendMessage = async ({
-  name,
-  email,
-  subject,
-  message,
-}: SendMessageParams) => {
-  try {
-    const headers = {
-      "Access-Control-Allow-Origin": "https://dzcode.io",
-    };
-
-    const res = await axios.post(
-      "https://us-central1-dzcode-io.cloudfunctions.net/api/contact",
-      { name, email, subject, message },
-      { headers: headers },
-    );
-  } catch (error) {
-    console.error(error);
-
-    const emoji = Math.random() * 10 > 5 ? "👀" : "💭";
-
-    toast.error(`${emoji} Ops!, Something Went Wrong.`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  }
+// FORM STATE
+const initialState = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  errors: { name: "", email: "", subject: "", message: "" },
 };
 
-export const ContactForm = (props: any) => {
-  const initialState = {
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-    errors: { name: "", email: "", subject: "", message: "" },
-  };
-
+//  CONTACT COMPONENT
+export const ContactForm = () => {
   const [state, setState] = useState(initialState);
 
-  const handleChange = (event: { currentTarget: any }): void => {
+  //  HANDLE STATE CHANGE
+  const handleChange = (
+    event:
+      | React.FormEvent<HTMLInputElement>
+      | React.FormEvent<HTMLTextAreaElement>,
+  ): void => {
     const target = event.currentTarget;
     const { name, value } = target;
-
     const errors = validateField(name, value);
     setState({
       ...state,
@@ -67,9 +33,11 @@ export const ContactForm = (props: any) => {
     });
   };
 
-  const handleSubmit = async (event) => {
-    const emoji = Math.random() * 10 > 5 ? "✌" : "👍";
+  // HANDLE FORM SUBMISSION
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    //  SHOW MESSAGE SENT
+    let emoji = Math.random() * 10 > 5 ? "✌" : "👍";
     toast.success(`${emoji} Message Sent Successfully!`, {
       position: "top-right",
       autoClose: 2000,
@@ -80,6 +48,7 @@ export const ContactForm = (props: any) => {
       progress: undefined,
     });
 
+    // SEND MESSAGE
     const { name, email, subject, message } = state;
     const form = {
       name,
@@ -88,11 +57,27 @@ export const ContactForm = (props: any) => {
       message,
     };
 
-    await sendMessage(form);
+    const sent = await sendMessage(form);
 
+    // HANDLE ERRORS
+    if (!sent) {
+      emoji = Math.random() * 10 > 5 ? "🤷‍♀️" : "🤷‍♂️";
+      toast.error(`${emoji} Ops!, Something Went Wrong.`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    // RESET FORM
     setState(initialState);
   };
 
+  // ERRORS FEEDBACK UI
   const classnames = {
     name: state.errors.name ? "form-error-field" : "",
     email: state.errors.email ? "form-error-field" : "",
@@ -118,7 +103,7 @@ export const ContactForm = (props: any) => {
       {state.errors.name ? (
         <div className="form-error">{state.errors.name}</div>
       ) : (
-        <div></div>
+        <></>
       )}
       <label htmlFor="name">
         Email
