@@ -1,45 +1,52 @@
 import * as functions from "firebase-functions";
-import sgMail from "@sendgrid/mail";
-
-// SENDGRID INIT
-let SENDGRID_API_KEY: string = functions.config().sendgrid.key;
-sgMail.setApiKey(SENDGRID_API_KEY);
-
-// SETUP EMAIL SETTINGS
-let admins: string[] = functions.config().sendgrid.admins;
-let user: string = functions.config().sendgrid.contactEmail;
 
 export const sendEmail = functions.firestore
   .document("messages/{messageId}")
   .onCreate(async (snapshot, _context) => {
-    const contactMessage = snapshot.data();
-    if (contactMessage) {
-      // FORMATE MESSAGES
-      const { name, email, subject, message, createdAt } = contactMessage;
+    try {
+      // -----------------INITIALIZATION--------------------
+      const Mailgun = require("mailgun-js");
+      const api_key = functions.config().mailgun.key;
+      const domain = functions.config().mailgun.domain;
+      const mailgun = Mailgun({ apiKey: api_key, domain: domain });
 
-      // USER MESSAGE
-      let senderMessage = {
-        to: email,
-        from: user,
-        subject: "Message Received",
-        text: `Hello ${name},I received your message. I will get back to you as soon as possible.`,
-      };
+      // SETUP EMAIL SETTINGS
+      const notifiedEmail: string = functions.config().mailgun.notifiedEmail;
+      const sendingEmail: string = functions.config().mailgun.sendingEmail;
 
-      // ADMINS MESSAGE
-      let adminMessage = {
-        from: user,
-        to: admins,
-        subject: "New Message Sent",
-        text: `there is a new message sent. 
+      // --------------------SEND EMAIL--------------------
+      const contactMessage = snapshot.data();
+      if (contactMessage) {
+        // FORMATE MESSAGES
+        const { name, email, subject, message, createdAt } = contactMessage;
+        // sendingEmail MESSAGE
+        const userMessage = {
+          to: email,
+          from: sendingEmail,
+          subject: "Message Received",
+          text: `Hello ${name},I received your message. I will get back to you as soon as possible.`,
+        };
+        // notifiedEmails MESSAGE
+        const notificationMessage = {
+          from: sendingEmail,
+          to: notifiedEmail,
+          subject: "New Message Sent",
+          text: `there is a new message sent. 
         At: ${createdAt}
         from: ${name}, email: ${email}
         about: ${subject}
         message: ${message}
         `,
-      };
+        };
+        const handleMessaging = (error: any, body: any) => {
+          console.log(body);
+        };
 
-      // SEND EMAILS
-      sgMail.send(senderMessage);
-      sgMail.send(adminMessage);
+        // SEND EMAILS
+        mailgun.messages().send(notificationMessage, handleMessaging);
+        mailgun.messages().send(userMessage, handleMessaging);
+      }
+    } catch (error) {
+      console.log(error);
     }
   });

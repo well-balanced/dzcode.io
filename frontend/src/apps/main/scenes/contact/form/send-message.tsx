@@ -15,13 +15,15 @@ export const sendMessage = async ({
 }: SendMessageParams) => {
   try {
     const headers = {
-      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      // "Access-Control-Allow-Origin": "http://localhost:8080",
+      "Access-Control-Allow-Origin": "https://dzcode.io",
     };
     await axios.post(
-      // "https://us-central1-dzcode-io.cloudfunctions.net/api/contact",
-      "http://localhost:5001/dzcode-io/us-central1/api/contact",
+      // "http://localhost:5001/dzcode-io/us-central1/api/contact",
+      "https://us-central1-dzcode-io.cloudfunctions.net/api/contact",
       { name, email, subject, message },
-      { headers: headers },
+      { headers },
     );
     return true;
   } catch (error) {
