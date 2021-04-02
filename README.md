@@ -8,25 +8,13 @@ The code for [dzcode.io](https://dzcode.io), a website for Algerian open-source 
 
 You can find more about each folder by clicking on the folder name
 
-| Folder               | Coverage                                                                                                                       |                           Production URL |                                          Staging URL |
-| :------------------- | :----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------: | ---------------------------------------------------: |
-| [./web](./web)       | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=web)](https://codecov.io/gh/dzcode-io/dzcode.io)    |           [dzcode.io](https://dzcode.io) |           [stage.dzcode.io](https://stage.dzcode.io) |
-| [./data](./data)     | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=data)](https://codecov.io/gh/dzcode-io/dzcode.io)   | [data.dzcode.io](https://data.dzcode.io) | [data.stage.dzcode.io](https://data.stage.dzcode.io) |
-| [./api](./api)       | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=api)](https://codecov.io/gh/dzcode-io/dzcode.io)    |   [api.dzcode.io](https://api.dzcode.io) |   [api_stage.dzcode.io](https://api_stage.dzcode.io) |
-| [./common](./common) | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=common)](https://codecov.io/gh/dzcode-io/dzcode.io) |                                          |                                                      |
-
-## Table of Content
-
-- [dzCode.io](#dzcodeio)
-  - [Meta](#meta)
-  - [Table of Content](#table-of-content)
-  - [Get Started](#get-started)
-    - [Perquisites](#perquisites)
-    - [Run it locally](#run-it-locally)
-  - [Contributing](#contributing)
-    - [Before You Create a Pull Request](#before-you-create-a-pull-request)
-    - [List Your Project or Add/Edit Article](#list-your-project-or-addedit-article)
-  - [License](#license)
+| Folder               | Coverage                                                                                                                       |                                       Production URL |                                                      Staging URL |
+| :------------------- | :----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------: | ---------------------------------------------------------------: |
+| [./web](./web)       | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=web)](https://codecov.io/gh/dzcode-io/dzcode.io)    |                       [dzcode.io](https://dzcode.io) |                       [stage.dzcode.io](https://stage.dzcode.io) |
+| [./data](./data)     | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=data)](https://codecov.io/gh/dzcode-io/dzcode.io)   |             [data.dzcode.io](https://data.dzcode.io) |             [data.stage.dzcode.io](https://data.stage.dzcode.io) |
+| [./api](./api)       | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=api)](https://codecov.io/gh/dzcode-io/dzcode.io)    |               [api.dzcode.io](https://api.dzcode.io) |               [api_stage.dzcode.io](https://api_stage.dzcode.io) |
+| [./search](./search) | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=search)](https://codecov.io/gh/dzcode-io/dzcode.io) | [api.dzcode.io/search](https://api.dzcode.io/search) | [api_stage.dzcode.io/search](https://api_stage.dzcode.io/search) |
+| [./common](./common) | [![codecov](https://codecov.io/gh/dzcode-io/dzcode.io/graph/badge.svg?flag=common)](https://codecov.io/gh/dzcode-io/dzcode.io) |                                                      |                                                                  |
 
 ## Get Started
 
@@ -72,8 +60,8 @@ yarn dev
 
 To get started see [the contributing guidelines](https://github.com/dzcode-io/dzcode.io/blob/master/.github/CONTRIBUTING.md).
 
-
 ### Before You Create a Pull Request
+
 - If you already forked the repository, please make sure your fork is up-to-date, following [this simple steps](https://www.dzcode.io/Learn/Git_Basics/Syncing_An_Old_Forked_Repository_With_Upstream).
 - Please make sure your code follows the style guideline defined in this repo, for that simply run `yarn lint:fix` to ensure the conformity. This process should happen automatically whenever you commit your changes, but you can always do it manually when your Pull Request checks are failing due to linting errors.
 

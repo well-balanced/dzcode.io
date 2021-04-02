@@ -22,6 +22,10 @@ documentation:
 web:
   - web/**/*
 
+# Add 'search' to any changes within 'search' folder or any subfolders
+search:
+  - search/**/*
+
 # Add 'common' to any changes within 'common' folder or any subfolders
 common:
   - common/**/*
