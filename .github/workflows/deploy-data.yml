@@ -3,18 +3,19 @@ name: Deploy Data
 on:
   push:
     tags:
-      - "prd-*"
+      - "v*"
     paths:
       - ".github/workflows/deploy-data.yml"
+      - "common/**"
       - "data/**"
 
 jobs:
-  Build-Deploy:
+  Deploy-Data:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -22,25 +23,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: "Fullstack: install and build"
+      - name: "Install workspace dependencies"
         run: |
-          cd fullstack
           yarn
+      - name: "Build common directory"
+        run: |
+          cd common
           yarn build
-      - name: "Data: install and build"
+      - name: "Deploy data"
         run: |
           cd data
-          yarn
-          yarn build
-          yarn generate
-      - name: "Frontend Firebase: install"
-        run: |
-          cd frontend/firebase
-          yarn
-      - name: "Frontend Firebase: deploy"
-        run: |
-          cd frontend/firebase
-          yarn deploy:data
+          yarn deploy
+
         env:
           CI: true
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -1,6 +1,0 @@
-firebase
-node_modules/
-coverage
-dist
-*.prettierignore
-*.tsbuildinfo

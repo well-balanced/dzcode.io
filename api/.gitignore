@@ -1,5 +1,6 @@
 dist
 coverage
+oracle-cloud/build
 
 # logs
 **.tsbuildinfo

@@ -1,0 +1,12 @@
+node_modules/
+coverage
+dist
+firebase
+
+.*
+*.tsbuildinfo
+*.log
+*.svg
+*.jpeg
+*.png
+*.ico
